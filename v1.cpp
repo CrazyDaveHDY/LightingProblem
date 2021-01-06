@@ -20,27 +20,29 @@ const int lim[]={0, 0, 2, 3, 6, 9, 12, 15};
 
 int n, ans=INF, vis[10][10];
 
+//检查位置 (x,y) 是否存在灯泡
 inline bool check(int x, int y)
 {
     if(x<1 || y<1 || x>n || y>n) return false;
     return true;
 }
 
-void dfs(int x, int y, int num, int res)
+//深度优先搜索
+void dfs(int x, int y, int num, int res) 
 {
     if(!res)
     {
-        ans=min(ans, num);
+        ans=min(ans, num); //更新最少操作步数
         return;
     }
     if(x==n+1 && y==1) return;
-    if(num<lim[n])
+    if(num<lim[n]) //剪枝优化
     {
         int val=res;
         for(int i=0; i<4; ++i)
         {
             int nx=x+dx[i], ny=y+dy[i];
-            if(check(nx, ny) && !vis[nx][ny]) val--;
+            if(check(nx, ny) && !vis[nx][ny]) val--; // 计算点击灯泡后的 res 值
             vis[nx][ny]++;
         }
         if(y==n) dfs(x+1, 1, num+1, val);
