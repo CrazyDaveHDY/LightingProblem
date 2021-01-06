@@ -21,22 +21,25 @@ vector<int> vec;
 
 int main()
 {
+    //输入模块
     printf("请输入灯的行列数n (n行n列):");
     scanf("%d", &n);
     system("clear");
-    for(int sta=0; sta<(1<<n); ++sta)
+
+    for(int sta=0; sta<(1<<n); ++sta) //枚举状态
     {
         for(int i=0; i<n; ++i)
-            if((sta>>i)&1) update(1, i+1);
+            if((sta>>i)&1) update(1, i+1); //确定第一行状态
         for(int i=2; i<=n; ++i)
             for(int j=1; j<=n; ++j)
-                if(!vis[i-1][j]) update(i, j);
+                if(!vis[i-1][j]) update(i, j); //递推出第 i 行状态
         for(int i=1; i<=n; ++i)
             if(!vis[n][i]) update(n, i+1);
-        if(ans<ans1) ans1=ans, ans2=sta;
+        if(ans<ans1) ans1=ans, ans2=sta; //如果操作步数更少，更新最优方案
+
         ans=0;
         for(int i=0; i<=n; ++i)
-            for(int j=0; j<=n; ++j) vis[i][j]=0;
+            for(int j=0; j<=n; ++j) vis[i][j]=0; //初始化
     }
     for(int i=0; i<n; ++i)
         if((ans2>>i)&1) a[i+1]=1;
